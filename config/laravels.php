@@ -23,7 +23,28 @@ return [
         'enable' => false,
         //'handler' => XxxWebSocketHandler::class,
     ],
-    'sockets'                  => [],
+    'sockets'                  => [
+        [
+            'host'     => '0.0.0.0',
+            'port'     => 5301,
+            'type'     => SWOOLE_SOCK_TCP,// 支持的嵌套字类型：https://wiki.swoole.com/wiki/page/16.html#entry_h2_0
+            'settings' => [// Swoole可用的配置项：https://wiki.swoole.com/wiki/page/526.html
+                'open_eof_check' => true,
+                'package_eof'    => "##_**",
+            ],
+            'handler'  => \App\Sockets\TestTcpSocket::class,
+        ],
+        [
+            'host'     => '0.0.0.0',
+            'port'     => 5309,
+            'type'     => SWOOLE_SOCK_TCP,// 支持的嵌套字类型：https://wiki.swoole.com/wiki/page/16.html#entry_h2_0
+            'settings' => [// Swoole可用的配置项：https://wiki.swoole.com/wiki/page/526.html
+                'open_eof_check' => true,
+                'package_eof'    => "\r\n",
+            ],
+            'handler'  => \App\Sockets\TestTcpSocket::class,
+        ],
+    ],
     'processes'                => [],
     'timer'                    => [
         'enable'        => false,
