@@ -6,30 +6,30 @@ function route_class()
 }
 
 if (!function_exists('tcp_data_encode')) {
-    function tcp_data_encode($data)
+    function tcp_data_encode(string $token, string $command, array $data)
     {
-        // $data_encoded = '010000000000';
+        $data_encoded = '010000000000';
         // $data_encoded = '';
         // VERSION [Default 01]
-        if (isset($data['VERSION']) && in_array($data['VERSION'], [0, 1])) {
+        /*if (isset($data['VERSION']) && in_array($data['VERSION'], [0, 1])) {
             $data_encoded = str_pad(dechex($data['VERSION']), 2, '0', STR_PAD_LEFT);
         } else {
             $data_encoded = '01';
-        }
+        }*/
         // ENCRYPT [Default 00]
-        if (isset($data['ENCRYPT']) && in_array($data['ENCRYPT'], [0, 1])) {
+        /*if (isset($data['ENCRYPT']) && in_array($data['ENCRYPT'], [0, 1])) {
             $data_encoded .= str_pad(dechex($data['ENCRYPT']), 2, '0', STR_PAD_LEFT);
         } else {
             $data_encoded .= '00';
-        }
+        }*/
         // STATUS [Default 00000000]
-        if (isset($data['STATUS']) && in_array($data['STATUS'], [0, 1])) {
+        /*if (isset($data['STATUS']) && in_array($data['STATUS'], [0, 1])) {
             $data_encoded .= str_pad(dechex($data['STATUS']), 8, '0', STR_PAD_LEFT);
         } else {
             $data_encoded .= '00000000';
-        }
+        }*/
         // TOKEN
-        if (isset($data['TOKEN'])) {
+        /*if (isset($data['TOKEN'])) {
             $token = bin2hex($data['TOKEN']);
             if (strlen($token) == 64) {
                 $data_encoded .= strtoupper($token);
@@ -38,17 +38,24 @@ if (!function_exists('tcp_data_encode')) {
             }
         } else {
             return false;
-        }
-        // COMMAND
-        if (isset($data['COMMAND'])) {
-            $data_encoded .= str_pad(strtoupper(dechex($data['COMMAND'])), 8, '0', STR_PAD_LEFT);
+        }*/
+        $token = bin2hex($token);
+        if (strlen($token) == 64) {
+            $data_encoded .= strtoupper($token);
         } else {
             return false;
         }
+        // COMMAND
+        /*if (isset($data['COMMAND'])) {
+            $data_encoded .= str_pad(strtoupper(dechex($data['COMMAND'])), 8, '0', STR_PAD_LEFT);
+        } else {
+            return false;
+        }*/
+        $data_encoded .= str_pad(strtoupper(dechex($command)), 8, '0', STR_PAD_LEFT);
         // DATA
         $keys_values_length = 0;
         $keys_values_encoded = '';
-        if (isset($data['DATA']) && is_array($data['DATA'])) {
+        /*if (isset($data['DATA']) && is_array($data['DATA'])) {
             foreach ($data['DATA'] as $key => $value) {
                 $key_encoded = strtoupper(bin2hex($key));
                 $value_encoded = strtoupper(bin2hex($value));
@@ -59,13 +66,22 @@ if (!function_exists('tcp_data_encode')) {
             }
         } else {
             return false;
+        }*/
+        foreach ($data as $key => $value) {
+            $key_encoded = strtoupper(bin2hex($key));
+            $value_encoded = strtoupper(bin2hex($value));
+            $key_length = (strlen($key_encoded)) / 2;
+            $value_length = (strlen($value_encoded)) / 2;
+            $keys_values_length += 8 + $key_length + $value_length;
+            $keys_values_encoded .= str_pad(strtoupper(dechex($key_length)), 8, '0', STR_PAD_LEFT) . $key_encoded . str_pad(strtoupper(dechex($value_length)), 8, '0', STR_PAD_LEFT) . $value_encoded;
         }
         // LENGTH
-        if (isset($data['LENGTH'])) {
+        /*if (isset($data['LENGTH'])) {
             $data_encoded .= str_pad(strtoupper(dechex($data['LENGTH'])), 8, '0', STR_PAD_LEFT);
         } else {
             $data_encoded .= str_pad(strtoupper(dechex($keys_values_length)), 8, '0', STR_PAD_LEFT);
-        }
+        }*/
+        $data_encoded .= str_pad(strtoupper(dechex($keys_values_length)), 8, '0', STR_PAD_LEFT);
         // DATA
         $data_encoded .= $keys_values_encoded;
         // END [协议分隔符 ##_**]
@@ -76,7 +92,7 @@ if (!function_exists('tcp_data_encode')) {
 }
 
 if (!function_exists('tcp_data_decode')) {
-    function tcp_data_decode($data)
+    function tcp_data_decode(string $data)
     {
         if (!is_string($data) || strlen($data) < 102) {
             return false;
