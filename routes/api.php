@@ -60,6 +60,12 @@ $api->version('v1', [
 
 
         });
+
+        $api->get('watch/deviceGetServerIp', 'WatchController@deviceGetServerIp')->name('watch.deviceGetServerIp');
+        $api->get('watch/deviceUploadTime', 'WatchController@deviceUploadTime')->name('watch.deviceUploadTime');
+        $api->get('watch/deviceVersionUpdate', 'WatchController@deviceVersionUpdate')->name('watch.deviceVersionUpdate');
+        $api->get('watch/deviceGetQRcode', 'WatchController@deviceGetQRcode')->name('watch.deviceGetQRcode');
+        $api->get('watch/deviceParamInit', 'WatchController@deviceParamInit')->name('watch.deviceParamInit');
     });
 
 

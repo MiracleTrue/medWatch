@@ -6,7 +6,7 @@ function route_class()
 }
 
 if (!function_exists('tcp_data_encode')) {
-    function tcp_data_encode(string $token, string $command, array $data)
+    function tcp_data_encode(string $token, int $command, array $data)
     {
         $data_encoded = '010000000000';
         // $data_encoded = '';
