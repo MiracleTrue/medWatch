@@ -15,4 +15,18 @@ class Request extends FormRequest
     {
         return true;
     }
+
+    public function rules()
+    {
+        return [
+            //
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            //
+        ];
+    }
 }

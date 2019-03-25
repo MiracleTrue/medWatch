@@ -61,11 +61,11 @@ $api->version('v1', [
 
         });
 
-        $api->get('watch/deviceGetServerIp', 'WatchController@deviceGetServerIp')->name('watch.deviceGetServerIp');
-        $api->get('watch/deviceUploadTime', 'WatchController@deviceUploadTime')->name('watch.deviceUploadTime');
-        $api->get('watch/deviceVersionUpdate', 'WatchController@deviceVersionUpdate')->name('watch.deviceVersionUpdate');
-        $api->get('watch/deviceGetQRcode', 'WatchController@deviceGetQRcode')->name('watch.deviceGetQRcode');
-        $api->get('watch/deviceParamInit', 'WatchController@deviceParamInit')->name('watch.deviceParamInit');
+        $api->get('watch/deviceGetServerIp', 'WatchController@deviceGetServerIp')->name('api.watch.deviceGetServerIp');
+        $api->get('watch/deviceUploadTime', 'WatchController@deviceUploadTime')->name('api.watch.deviceUploadTime');
+        $api->get('watch/deviceVersionUpdate', 'WatchController@deviceVersionUpdate')->name('api.watch.deviceVersionUpdate');
+        $api->get('watch/deviceGetQRcode', 'WatchController@deviceGetQRcode')->name('api.watch.deviceGetQRcode');
+        $api->get('watch/deviceParamInit', 'WatchController@deviceParamInit')->name('api.watch.deviceParamInit');
     });
 
 
