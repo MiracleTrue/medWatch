@@ -1,3 +1,4 @@
 *
-!qrcode/
+!*.jpg
+!*.png
 !.gitignore
