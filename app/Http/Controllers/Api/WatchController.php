@@ -12,7 +12,7 @@ class WatchController extends Controller
     {
         return $this->response->array([
             'status' => 0,
-            'ip' => '47.105.126.225',
+            'ip' => '47.88.86.209',
         ]);
     }
 
